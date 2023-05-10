@@ -20,27 +20,52 @@ file(GLOB lib_src FOLLOW_SYMLINKS "*.c")
 
 add_library(secure_random STATIC ${lib_src})
 
-target_compile_options(
-  secure_random
-  PRIVATE -Wall
-          -Wextra
-          -Wshadow
-          -Wstrict-aliasing
-          -ansi
-          -pedantic
-          -Wno-declaration-after-statement
-          -Wno-extra-semi-stmt
-          -Wno-undef
-          -Wno-unused-variable
-          -Wno-unused-parameter
-          -Wno-padded
-          -Werror=implicit-function-declaration
-          -Werror=incompatible-pointer-types
-          -Werror=missing-prototypes
-          -Werror=int-conversion
-          -Werror=return-type
-          -Werror=incompatible-function-pointer-types
-)
+if(WIN32)
+  target_compile_options(
+    secure_random
+    PRIVATE /F
+            5000000
+            /Wall
+            /wd4668
+            /wd4820
+            /wd4100
+            /wd4710
+            /wd4711
+            /wd5945
+            /wd5105
+            /wd5045
+            /we4047
+            /we4255
+            /we4013
+            /we4020
+            /we4474
+            /we4477
+            /we4057
+            /we4101
+            /we4189)
+else()
+  target_compile_options(
+    secure_random
+    PRIVATE -Wall
+            -Wextra
+            -Wshadow
+            -Wstrict-aliasing
+            -ansi
+            -pedantic
+            -Wno-declaration-after-statement
+            -Wno-extra-semi-stmt
+            -Wno-undef
+            -Wno-unused-variable
+            -Wno-unused-parameter
+            -Wno-padded
+            -Werror=implicit-function-declaration
+            -Werror=incompatible-pointer-types
+            -Werror=missing-prototypes
+            -Werror=int-conversion
+            -Werror=return-type
+            -Werror=incompatible-function-pointer-types)
+endif()
+
 if(COMPILER_CLANG)
   target_compile_options(
     secure_random PRIVATE -Wmost -Weverything
