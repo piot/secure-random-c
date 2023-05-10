@@ -21,7 +21,7 @@ int secureRandomOctets(uint8_t* target, size_t octetCount)
     return 0;
 }
 
-#elif __WIN32
+#elif defined(_WIN32)
 #include <bcrypt.h>
 
 int secureRandomOctets(uint8_t* target, size_t octetCount)
@@ -70,8 +70,6 @@ uint64_t secureRandomUInt64(void)
     }
     return target;
 }
-
-GRND_RANDOM
 
 #else
 #error "secure random: unknown platform"
