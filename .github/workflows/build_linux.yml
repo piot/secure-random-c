@@ -1,0 +1,28 @@
+name: build linux
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: make clang-14 the default
+        run: sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-14 100ß
+
+      - name: check clang
+        run: clang --version
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.14
+        with:
+          cmake-version: '3.25.x'
+
+      - name: cmake cache
+        run: cmake -DCMAKE_BUILD_TYPE=Debug .
+        working-directory: src/
+
+      - name: cmake build
+        run: cmake --build . --clean-first
+        working-directory: src/
