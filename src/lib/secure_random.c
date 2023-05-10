@@ -2,6 +2,9 @@
  *  Copyright (c) Peter Bjorklund. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+#if defined(_WIN32)
+#include <Windows.h>
+#endif
 #include <secure-random/secure_random.h>
 
 #if __APPLE__
@@ -46,7 +49,7 @@ uint64_t secureRandomUInt64(void)
     return target;
 }
 
-#elif __posix
+#elif __posix || __linux || __unix
 #include <sys/random.h>
 
 int secureRandomOctets(uint8_t* target, size_t octetCount)
