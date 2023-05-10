@@ -57,7 +57,7 @@ uint64_t secureRandomUInt64(void)
 
 int secureRandomOctets(uint8_t* target, size_t octetCount)
 {
-    ssize_t err = getrandom(target, octeCount, 0);
+    ssize_t err = getrandom(target, octetCount, 0);
     if (err != octetCount) {
         // CLOG_ERROR("failed secure random")
         return -1;
@@ -70,7 +70,7 @@ uint64_t secureRandomUInt64(void)
 {
     uint64_t target;
 
-    int err = secureRandomOctets(&target, sizeof(uint64_t));
+    int err = secureRandomOctets((uint8_t*)&target, sizeof(uint64_t));
     if (err < 0) {
         // CLOG_ERROR("error in random generator")
         return 0;
