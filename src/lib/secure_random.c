@@ -5,6 +5,7 @@
 #if defined(_WIN32)
 #include <Windows.h>
 #endif
+
 #include <secure-random/secure_random.h>
 
 #if __APPLE__
@@ -50,6 +51,13 @@ uint64_t secureRandomUInt64(void)
         return 0;
     }
     return target;
+}
+
+#elif defined __EMSCRIPTEN__
+
+uint64_t secureRandomUInt64(void)
+{
+    return 0;
 }
 
 #elif __posix || __linux || __unix
