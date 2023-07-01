@@ -8,7 +8,7 @@
 
 #include <secure-random/secure_random.h>
 
-#if __APPLE__
+#if defined __APPLE__
 #include <stdlib.h>
 
 uint64_t secureRandomUInt64(void)
@@ -60,7 +60,7 @@ uint64_t secureRandomUInt64(void)
     return 0;
 }
 
-#elif __posix || __linux || __unix
+#elif defined __posix || defined __linux || defined __unix
 #include <sys/random.h>
 
 int secureRandomOctets(uint8_t* target, size_t octetCount)
