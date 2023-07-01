@@ -27,12 +27,12 @@ int secureRandomOctets(uint8_t* target, size_t octetCount)
 }
 
 #elif defined(_WIN32)
-#include <ntstatus.h>
 #include <bcrypt.h>
+#include <ntstatus.h>
 
 int secureRandomOctets(uint8_t* target, size_t octetCount)
 {
-    NTSTATUS status = BCryptGenRandom(NULL, target, octetCount, BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+    NTSTATUS status = BCryptGenRandom(NULL, target, (ULONG) octetCount, BCRYPT_USE_SYSTEM_PREFERRED_RNG);
     if (status != STATUS_SUCCESS) {
         // CLOG_ERROR("failed secure random")
         return -1;
@@ -45,7 +45,7 @@ uint64_t secureRandomUInt64(void)
 {
     uint64_t target;
 
-    int err = secureRandomOctets(&target, sizeof(uint64_t));
+    int err = secureRandomOctets((uint8_t*) &target, sizeof(uint64_t));
     if (err < 0) {
         // CLOG_ERROR("error in random generator")
         return 0;
@@ -66,7 +66,7 @@ uint64_t secureRandomUInt64(void)
 int secureRandomOctets(uint8_t* target, size_t octetCount)
 {
     ssize_t err = getrandom(target, octetCount, 0);
-    if (err != octetCount) {
+    if (err != (ssize_t) octetCount) {
         // CLOG_ERROR("failed secure random")
         return -1;
     }
@@ -78,7 +78,7 @@ uint64_t secureRandomUInt64(void)
 {
     uint64_t target;
 
-    int err = secureRandomOctets((uint8_t*)&target, sizeof(uint64_t));
+    int err = secureRandomOctets((uint8_t*) &target, sizeof(uint64_t));
     if (err < 0) {
         // CLOG_ERROR("error in random generator")
         return 0;
