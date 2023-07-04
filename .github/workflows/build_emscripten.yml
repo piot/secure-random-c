@@ -27,12 +27,24 @@ jobs:
       - name: deps fetch dependencies
         run: go run github.com/piot/deps/src/deps@main fetch -t src/deps
 
-      - name: create cmake cache using emscripten (emcmake)
-        run: emcmake cmake -DCMAKE_BUILD_TYPE=Debug .
+      - name: create cmake cache debug using emscripten (emcmake)
+        run: emcmake cmake -B build/emscripten-debug -DMAKE_WASM_BUILD=ON -DCMAKE_BUILD_TYPE=Debug
         working-directory: src
 
-      - name: build
-        run: cmake --build . --clean-first
+      - name: create cmake cache release using emscripten (emcmake)
+        run: emcmake cmake -B build/emscripten-release -DMAKE_WASM_BUILD=ON
+        working-directory: src
+
+      - name: build debug
+        run: cmake --build build/emscripten-debug
+        working-directory: src
+
+      - name: build release
+        run: cmake --build build/emscripten-release --clean-first
+        working-directory: src
+
+      - name: build debug again
+        run: cmake --build build/emscripten-debug --clean-first
         working-directory: src
 
       - uses: actions/upload-artifact@v3.1.2
