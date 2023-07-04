@@ -14,11 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: make clang-14 the default
-        run:
-          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-14
-          100
-
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.14
         with:
