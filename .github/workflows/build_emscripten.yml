@@ -1,4 +1,4 @@
-name: Build Emscripten
+name: Build Emscripten on Linux
 on: [push]
 
 jobs:

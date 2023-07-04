@@ -1,4 +1,4 @@
-name: Build Emscripten
+name: Build Emscripten on MacOS 13
 on: [push]
 
 jobs:
@@ -27,8 +27,13 @@ jobs:
       - name: deps fetch dependencies
         run: go run github.com/piot/deps/src/deps@main fetch -t src/deps
 
+      - name: export python path
+        run: export EMSDK_PYTHON=`which python3`
+
       - name: create cmake cache debug using emscripten (emcmake)
-        run: emcmake cmake -B build/emscripten-debug -DMAKE_WASM_BUILD=ON -DCMAKE_BUILD_TYPE=Debug
+        run:
+          emcmake cmake -B build/emscripten-debug -DMAKE_WASM_BUILD=ON
+          -DCMAKE_BUILD_TYPE=Debug
         working-directory: src
 
       - name: create cmake cache release using emscripten (emcmake)
