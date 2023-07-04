@@ -55,9 +55,11 @@ uint64_t secureRandomUInt64(void)
 
 #elif defined __EMSCRIPTEN__
 
+#include <stdlib.h>
+
 uint64_t secureRandomUInt64(void)
 {
-    return 0;
+    abort(); // not implemented for emscripten builds
 }
 
 #elif defined __posix || defined __linux || defined __unix
