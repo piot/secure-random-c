@@ -55,10 +55,12 @@ uint64_t secureRandomUInt64(void)
 
 #elif defined __EMSCRIPTEN__
 #include <stdlib.h>
+#include <emscripten/em_math.h>
 
 uint64_t secureRandomUInt64(void)
 {
-    abort();
+    // TODO: This is not a secure random number
+    return (uint64_t) (emscripten_math_random() * (double)UINT64_MAX);
 }
 
 #elif defined __posix || defined __linux || defined __unix
